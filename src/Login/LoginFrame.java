@@ -90,7 +90,7 @@ public class LoginFrame extends JFrame{
         titulo.setFont(new Font("Comic Sans MS", 1, 34));
         bordeNorth.add(titulo);
         titulo.setForeground(Color.MAGENTA);
-        //bordeNorth.setBackground(Color.blue);
+        //bordeNorth.setBackground(Color.green);
         bordeNorth.setPreferredSize(new Dimension(400, 50));
         //PNL SOUTH   
         bordeSouth = new JPanel();

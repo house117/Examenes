@@ -24,8 +24,10 @@ public class Alumno implements Serializable{
     private Double promedio;
     private String password;
     private ArrayList<Materia> materiasDelAlumno;
+    private ArrayList<Profesor> profesoresDelAlumno;
     public Alumno(String noControl, String nombre, String aPaterno,
             String aMaterno, Fecha fechaNac, String Carrera, ArrayList<Materia> materiasDelAlumno,
+            ArrayList<Profesor> profesoresDelAlumno,
             String password) //Quitar el promedio y reciba la lista materias
             throws FechaInvalidaException, CalificacionInvalidaException {
         this.noControl = noControl;
@@ -35,6 +37,7 @@ public class Alumno implements Serializable{
         this.fechaNac = new Fecha(fechaNac.getDia(), fechaNac.getMes(), fechaNac.getAnio());
         this.Carrera = Carrera;
         this.materiasDelAlumno = materiasDelAlumno;
+        this.profesoresDelAlumno = profesoresDelAlumno; 
         this.password = password;
         promedio = calcularPromedio();
     }
@@ -136,6 +139,20 @@ public class Alumno implements Serializable{
 
     public void setMateriasDelAlumno(ArrayList<Materia> materiasDelAlumno) {
         this.materiasDelAlumno = materiasDelAlumno;
+    }
+
+    /**
+     * @return the profesoresDelAlumno
+     */
+    public ArrayList<Profesor> getProfesoresDelAlumno() {
+        return profesoresDelAlumno;
+    }
+
+    /**
+     * @param profesoresDelAlumno the profesoresDelAlumno to set
+     */
+    public void setProfesoresDelAlumno(ArrayList<Profesor> profesoresDelAlumno) {
+        this.profesoresDelAlumno = profesoresDelAlumno;
     }
     
     

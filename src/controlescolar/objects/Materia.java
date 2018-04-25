@@ -16,6 +16,7 @@ public class Materia implements Serializable{
     private String materia;
     private TipoCurso tipoCurso;
     private Double calificacion;
+    private String profesorPrivilegiado; //solo se usara con el objeto materia de alumno
 
     public Materia(String noControl, String materia, TipoCurso tipoCurso, Double calificacion) {
         this.noControl = noControl;
@@ -28,6 +29,14 @@ public class Materia implements Serializable{
         this.materia = materia;
         this.tipoCurso = tipoCurso;
         this.calificacion = calificacion;
+    }
+        public Materia(String noControl, String materia, TipoCurso tipoCurso, Double calificacion,
+                String profesorPrivilegiado) {
+        this.noControl = noControl;
+        this.materia = materia;
+        this.tipoCurso = tipoCurso;
+        this.calificacion = calificacion;
+        this.profesorPrivilegiado = profesorPrivilegiado;
     }
 
     public Materia() {
@@ -63,6 +72,14 @@ public class Materia implements Serializable{
 
     public void setCalificacion(Double calificacion) {
         this.calificacion = calificacion;
+    }
+
+    public String getProfesorPrivilegiado() {
+        return profesorPrivilegiado;
+    }
+
+    public void setProfesorPrivilegiado(String profesorPrivilegiado) {
+        this.profesorPrivilegiado = profesorPrivilegiado;
     }
     
 }

@@ -90,6 +90,15 @@ public class TablePanel extends JPanel{
                             mostrarAlumno.add(new JLabel(String.format("Tipo curso: %s",
                                     listaAlumnos.get(i).getMateriasDelAlumno().get(j).getTipoCurso())));
                             mostrarAlumno.add(Box.createVerticalStrut(15));
+                            for(int k=0; k<listaAlumnos.get(i).getProfesoresDelAlumno().size(); k++){
+                                if(listaAlumnos.get(i).getMateriasDelAlumno().get(j).getProfesorPrivilegiado().equals(
+                                listaAlumnos.get(i).getProfesoresDelAlumno().get(k).getNoControl())){
+                                    mostrarAlumno.add(new JLabel(String.format("Profesor privilegiado: %s %s %s", 
+                                            listaAlumnos.get(i).getProfesoresDelAlumno().get(k).getNombre(),
+                                            listaAlumnos.get(i).getProfesoresDelAlumno().get(k).getaMaterno(),
+                                            listaAlumnos.get(i).getProfesoresDelAlumno().get(k).getaPaterno())));
+                                }
+                            }
                         }
                         int result = JOptionPane.showConfirmDialog(null, mostrarAlumno, "Información del alumno",
                             JOptionPane.CLOSED_OPTION); 

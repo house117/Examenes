@@ -233,6 +233,7 @@ public class MainFrame extends JFrame{
                 String carrera;
                 String noControl = JOptionPane.showInputDialog("Ingresa el numero de control");
                 ArrayList<Materia> listaMaterias;
+                ArrayList<Profesor> listaProfesores;
                 String contraseniaAlumno;
                 /*Pendiente agregar también la lista de Materias, y con ellas calcular el promedio*/
                 if(!control.existeNoControlAlumno(noControl)){
@@ -284,6 +285,7 @@ public class MainFrame extends JFrame{
                                     JOptionPane.OK_CANCEL_OPTION); //Con esto tenemos un boton de ok/cancel, muy util
                                 if(resultMaterias == JOptionPane.OK_OPTION){
                                     listaMaterias = new ArrayList<>();
+                                    listaProfesores = new ArrayList<>();
                                     for(int i=0; i<Integer.parseInt(cantMaterias.getText()); i++){
                                         
                                         JPanel seleccionMateria = new JPanel();
@@ -295,29 +297,59 @@ public class MainFrame extends JFrame{
                                         for(int j=0; j<control.getListaMaterias().size(); j++){
                                             listaNombresMaterias[j] = control.getListaMaterias().get(j).getMateria();
                                         }
+                                          String[] listaNombreProfesores = new String[control.getListaProfesores().size()];
+                                    
+                                      
                                             
                                         
                                         JComboBox cboxMaterias = new JComboBox(listaNombresMaterias);
+                                 
+                                              
+                                        for(int j=0; j<control.getListaProfesores().size(); j++){
+                                            listaNombreProfesores[j] = String.format("%s %s %s", control.getListaProfesores().get(j).getNombre(),
+                                                                      control.getListaProfesores().get(j).getaPaterno(),
+                                                                        control.getListaProfesores().get(j).getaMaterno());
+                                        }
+                                        JComboBox cboxProfesores = new JComboBox(listaNombreProfesores);
+                                        
                                         seleccionMateria.add(cboxMaterias);
                                         seleccionMateria.add(new JLabel("Calificacion de esta materia:"));
                                         seleccionMateria.add(calificacionField);
+                                        seleccionMateria.add(new JLabel("Profesor de esta materia:"));
+                                        seleccionMateria.add(cboxProfesores);
                                         int materiaSeleccionada = JOptionPane.showConfirmDialog(null, seleccionMateria, "Selecciona la materia"+i,
                                             JOptionPane.OK_CANCEL_OPTION);
                                         if(materiaSeleccionada == JOptionPane.OK_OPTION){
                                             Materia seleccionada;
-                                            for(int j=0; j<control.getListaMaterias().size(); j++){
-                                                System.out.println(control.getListaMaterias().get(j).getMateria()+" = "+(String)cboxMaterias.getSelectedItem());
-                                                if(control.getListaMaterias().get(j).getMateria().equals((String)cboxMaterias.getSelectedItem())
-                                                        /*&& Integer.parseInt(calificacionField.getText())>=0 
-                                                        && Integer.parseInt(calificacionField.getText())<=10*/){
-                                                    System.out.println("logro entrar al if porque son iwales!!!");
-                                                    seleccionada = new Materia(control.getListaMaterias().get(j).getNoControl(), 
-                                                            control.getListaMaterias().get(j).getMateria(), 
-                                                            control.getListaMaterias().get(j).getTipoCurso(),
-                                                            Double.parseDouble(calificacionField.getText()));
+                                            Profesor seleccionado;
+                                            
+                                            for(int j=0; j<control.getListaProfesores().size(); j++){
+                                                String nombreCbox = (String)cboxProfesores.getSelectedItem();
+                                                String nombreLista = String.format("%s %s %s", control.getListaProfesores().get(j).getNombre(),
+                                                                      control.getListaProfesores().get(j).getaPaterno(),
+                                                                        control.getListaProfesores().get(j).getaMaterno());
+                                                System.out.println(control.getListaProfesores().get(j).getNoControl()+" = "+(String)cboxMaterias.getSelectedItem());
+                                                if(nombreCbox.equals(nombreLista)){
+                                                    System.out.println("logro entrar al if DE NOMBRE PROFESOR porque son iwales!!!");
+                                                    seleccionado = control.getListaProfesores().get(i);
+                                                    for(int m=0; m<control.getListaMaterias().size(); m++){
+                                                             System.out.println(control.getListaMaterias().get(m).getMateria()+" = "+(String)cboxMaterias.getSelectedItem());
+                                                             if(control.getListaMaterias().get(m).getMateria().equals((String)cboxMaterias.getSelectedItem())
+                                                            /*&& Integer.parseInt(calificacionField.getText())>=0 
+                                                                && Integer.parseInt(calificacionField.getText())<=10*/){
+                                                            System.out.println("logro entrar al if porque son iwales!!!");
+                                                            seleccionada = new Materia(control.getListaMaterias().get(m).getNoControl(), 
+                                                            control.getListaMaterias().get(m).getMateria(), 
+                                                            control.getListaMaterias().get(m).getTipoCurso(),
+                                                            Double.parseDouble(calificacionField.getText()),
+                                                            seleccionado.getNoControl());
                                                     listaMaterias.add(seleccionada);
                                                 }
                                             }
+                                                    listaProfesores.add(seleccionado);
+                                                }
+                                            }
+                                            
     
                                         }
                                     }
@@ -340,7 +372,7 @@ public class MainFrame extends JFrame{
                                             }else{
                                                 contraseniaAlumno = contraseniaField.getText();
                                                 Alumno aIngresar = new Alumno(noControl, nombre, aPaterno,
-                                                aMaterno, fechaNac, carrera, listaMaterias, contraseniaAlumno);
+                                                aMaterno, fechaNac, carrera, listaMaterias, listaProfesores, contraseniaAlumno);
                                                 control.addAlumno(aIngresar);
                                                 pnlTabla.addAlumno(aIngresar);
                                                 MainFrame.this.repaint();
@@ -536,7 +568,7 @@ public class MainFrame extends JFrame{
                     myPanel.add(Box.createHorizontalStrut(15)); // a spacer
                     myPanel.add(new JLabel("Tipo Curso:"));
                     myPanel.add(tipoCursoBox);
-                    int result = JOptionPane.showConfirmDialog(null, myPanel, "Ingresa la fecha de nacimiento",
+                    int result = JOptionPane.showConfirmDialog(null, myPanel, "Ingresa datos de la materia",
                             JOptionPane.OK_CANCEL_OPTION); //Con esto tenemos un boton de ok/cancel, muy util
                     if(result == JOptionPane.OK_OPTION){
                         if(!control.existeNoControlMateria(noControlField.getText())){
