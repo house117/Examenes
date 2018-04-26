@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import Examen.objects.TipoUsuario;
+import controlescolar.objects.Profesor;
 import guiAdministrador.MainFrame;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -125,13 +126,16 @@ public class LoginFrame extends JFrame{
                         for(int i=0; i<controlEscolar.getListaProfesores().size(); i++){
                             if(controlEscolar.getListaProfesores().get(i).getNoControl().equals(txtUser.getText())){
                                if(controlEscolar.getListaProfesores().get(i).getPassword().equals(txtPassword.getText())){
+                                   Profesor referencia = controlEscolar.getListaProfesores().get(i);
                                    correctoProfesor = true; 
                                    //System.out.println("SI ENTRO A PROFESOR");
                                    SwingUtilities.invokeLater(new Runnable() {
                                 @Override
                                 public void run() {
                                     LoginFrame.this.setVisible(false);
-                                    ProfesorFrame ventanaProfesir = new ProfesorFrame("Examenes - Profesores");
+                                    ProfesorFrame ventanaProfesir = new ProfesorFrame("Examenes - Profesores",
+                                            referencia,
+                                            controlEscolar);
                                 }
                             });
                                 }
