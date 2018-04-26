@@ -6,7 +6,7 @@
 package main;
 
 import Login.LoginFrame;
-import controller.GestionadorArchivo;
+import controller.GestionadorArchivoControlEscolar;
 import guiAdministrador.MainFrame;
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +30,9 @@ public class Main {
                 try {
                     
                     /*MainFrame ventana = new MainFrame("Control Escolar", 
-                            GestionadorArchivo.abrirArchivo(controlEscolar));*/
+                            GestionadorArchivoControlEscolar.abrirArchivo(controlEscolar));*/
                     LoginFrame login = new LoginFrame("Acceso", 
-                            GestionadorArchivo.abrirArchivo(controlEscolar));
+                            GestionadorArchivoControlEscolar.abrirArchivo(controlEscolar));
                     
                     
                 } catch (IOException | ClassNotFoundException ex) {

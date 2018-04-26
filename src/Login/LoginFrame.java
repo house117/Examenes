@@ -135,7 +135,7 @@ public class LoginFrame extends JFrame{
                                     LoginFrame.this.setVisible(false);
                                     ProfesorFrame ventanaProfesir = new ProfesorFrame("Examenes - Profesores",
                                             referencia,
-                                            controlEscolar);
+                                            controlEscolar, new ControlExamenes());
                                 }
                             });
                                 }

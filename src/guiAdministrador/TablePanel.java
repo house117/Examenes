@@ -149,7 +149,9 @@ public class TablePanel extends JPanel{
         System.out.println("ME EJECUTE");
         //metodo que obtiene un arrayList de alumnos y lo agrega a una tabla y
         //agrega esta al JPanel
-        
+        for(int i=0; i<tblmEstudiante.getRowCount(); i++){
+            tblmEstudiante.removeRow(i);
+        }
         String noControl;
         String nombre;
         String aPaterno;

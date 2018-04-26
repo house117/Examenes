@@ -156,7 +156,7 @@ public class MainFrame extends JFrame{
                 if (fc.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
                     //cargar el archivo 
                     try {
-                        control = GestionadorArchivo.abrirArchivo(fc.getSelectedFile());
+                        control = GestionadorArchivoControlEscolar.abrirArchivo(fc.getSelectedFile());
                         //pnlTabla.removeAll();
                         pnlTabla.drawTabla(control.getListaAlumnos());
                         
@@ -189,14 +189,14 @@ public class MainFrame extends JFrame{
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                        if(result == JOptionPane.OK_OPTION){ //Si acepta sobrescribimos, si no pues no.
                            try {
-                                GestionadorArchivo.guardarArchivito(control, fc.getSelectedFile().toString());
+                                GestionadorArchivoControlEscolar.guardarArchivito(control, fc.getSelectedFile().toString());
                                } catch (IOException ex) {
                                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                              }
                        }
                    }else{
                       try {
-                          GestionadorArchivo.guardarArchivito(control, fc.getSelectedFile().toString());
+                          GestionadorArchivoControlEscolar.guardarArchivito(control, fc.getSelectedFile().toString());
                       } catch (IOException ex) {
                           Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                       }

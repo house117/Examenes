@@ -5,6 +5,7 @@
  */
 package Examen.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -12,7 +13,7 @@ import javax.swing.ImageIcon;
  *
  * @author House
  */
-public class Pregunta {
+public class Pregunta implements Serializable{
     private String enunciadio;
     private ImageIcon imagen;
     private ArrayList<String> opciones;

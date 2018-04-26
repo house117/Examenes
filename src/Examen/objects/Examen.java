@@ -8,19 +8,20 @@ package Examen.objects;
 import controlescolar.objects.Fecha;
 import controlescolar.objects.Materia;
 import controlescolar.objects.Profesor;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author House
  */
-public class Examen {
+public class Examen implements Serializable{
     private String nombre;
     private String noControl;
     private Profesor profesorCreador;
     private Materia materiaDelExamen;
     private ArrayList<Pregunta> listaPreguntas;
-    private Fecha diaLimite;
+    private Fecha fechaLimite;
 
     public Examen(String nombre, String noControl, Profesor profesorCreador, Materia materiaDelExamen, ArrayList<Pregunta> listaPreguntas, Fecha diaLimite) {
         this.nombre = nombre;
@@ -28,7 +29,7 @@ public class Examen {
         this.profesorCreador = profesorCreador;
         this.materiaDelExamen = materiaDelExamen;
         this.listaPreguntas = listaPreguntas;
-        this.diaLimite = diaLimite;
+        this.fechaLimite = diaLimite;
     }
     
     public Examen(ArrayList<Pregunta> listaPreguntas){
@@ -112,16 +113,21 @@ public class Examen {
     }
 
     /**
-     * @return the diaLimite
+     * @return the fechaLimite
      */
-    public Fecha getDiaLimite() {
-        return diaLimite;
+    public Fecha getFechaLimite() {
+        return fechaLimite;
     }
 
     /**
-     * @param diaLimite the diaLimite to set
+     * @param fechaLimite the fechaLimite to set
      */
-    public void setDiaLimite(Fecha diaLimite) {
-        this.diaLimite = diaLimite;
+    public void setFechaLimite(Fecha fechaLimite) {
+        this.fechaLimite = fechaLimite;
     }
+
+    /**
+     * @return the fechaLimite
+     */
+
 }

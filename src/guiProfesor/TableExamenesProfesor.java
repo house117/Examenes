@@ -25,7 +25,7 @@ public class TableExamenesProfesor extends JPanel{
     public TableExamenesProfesor(ArrayList<Examen> listaExamenes){
         super();
         super.setLayout(null);
-        String col[] = {"No.Control", "Nombre Examen","Materia","Profesor"};
+        String col[] = {"No.Control", "Nombre Examen","Materia","Profesor","Fecha límite"};
         tblmExamenesProfesor = new DefaultTableModel(col, 0){
             @Override
             public boolean isCellEditable(int i, int il){
@@ -41,6 +41,7 @@ public class TableExamenesProfesor extends JPanel{
         String nombre;
         String materia;
         String profesor;
+        String fechaLimite;
        //Prints en consola de apoyo
                 noControl = aMostrar.getNoControl();
                 nombre = aMostrar.getNombre();
@@ -48,7 +49,8 @@ public class TableExamenesProfesor extends JPanel{
                 profesor = String.format("%s %s %s", aMostrar.getProfesorCreador().getNombre(),
                         aMostrar.getProfesorCreador().getaPaterno(),
                         aMostrar.getProfesorCreador().getaMaterno());
-                Object[] data = {noControl, nombre, materia, profesor};
+                fechaLimite = aMostrar.getFechaLimite().toString();
+                Object[] data = {noControl, nombre, materia, profesor, fechaLimite};
                 tblmExamenesProfesor.addRow(data);
 
     }
@@ -60,11 +62,14 @@ public class TableExamenesProfesor extends JPanel{
         System.out.println("ME EJECUTE");
         //metodo que obtiene un arrayList de alumnos y lo agrega a una tabla y
         //agrega esta al JPanel
-        
+        for(int i=0; i<tblmExamenesProfesor.getRowCount(); i++){
+            tblmExamenesProfesor.removeRow(i);
+        }
         String noControl;
         String nombre;
         String materia;
         String profesor;
+        String fechaLimite;
         for(int i=0; i<aMostrar.size(); i++){    
             System.out.println("ENTRE AL FOR veces: "+i);
             System.out.println("Control = "+aMostrar.get(i).getNoControl());
@@ -74,10 +79,11 @@ public class TableExamenesProfesor extends JPanel{
                 noControl = aMostrar.get(i).getNoControl();
                 nombre = aMostrar.get(i).getNombre();
                 materia = aMostrar.get(i).getMateriaDelExamen().getMateria();
+                fechaLimite = aMostrar.get(i).getFechaLimite().toString();
                 profesor = String.format("%s %s %s", aMostrar.get(i).getProfesorCreador().getNombre(),
                         aMostrar.get(i).getProfesorCreador().getaPaterno(),
                         aMostrar.get(i).getProfesorCreador().getaMaterno());
-                Object[] data = {noControl, nombre, materia, profesor};
+                Object[] data = {noControl, nombre, materia, profesor,fechaLimite};
                 tblmExamenesProfesor.addRow(data);
                 //Agrega la fila a table Model estudiante
                 

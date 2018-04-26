@@ -20,7 +20,7 @@ import java.io.ObjectOutputStream;
  *
  * @author House
  */
-public class GestionadorArchivo {
+public class GestionadorArchivoControlEscolar {
     public static void guardarArchivito(ControlEscolar b, String Name) throws FileNotFoundException, IOException{
         File file = new File(Name);
         FileOutputStream output = new FileOutputStream(file);
