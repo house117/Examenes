@@ -102,7 +102,7 @@ public class TablePanel extends JPanel{
                         }
                         int result = JOptionPane.showConfirmDialog(null, mostrarAlumno, "Información del alumno",
                             JOptionPane.CLOSED_OPTION); 
-                        //TablePanel.this.repaint();
+                        TablePanel.this.repaint();
                     }
                 }
                   

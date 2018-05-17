@@ -11,6 +11,8 @@ import controller.*;
 import exceptions.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import static java.awt.Component.RIGHT_ALIGNMENT;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.awt.image.ImageObserver.WIDTH;
@@ -18,6 +20,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -26,7 +31,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import listeners.ControlListener;
-
+import models.DateLabelFormatter;
+import org.jdatepicker.impl.*;
+import org.jdatepicker.util.*;
+import org.jdatepicker.*;
+import sun.util.calendar.CalendarDate;
 
 /**
  *
@@ -231,44 +240,145 @@ public class MainFrame extends JFrame{
                 String aMaterno;
                 Fecha fechaNac;
                 String carrera;
-                String noControl = JOptionPane.showInputDialog("Ingresa el numero de control");
+                String noControl;
                 ArrayList<Materia> listaMaterias;
                 ArrayList<Profesor> listaProfesores;
                 String contraseniaAlumno;
+                Boolean infoIsOk = false;
+                int okInfo;
+                do {
+                    //PANEL PRINCIPAL
+                    JPanel pnlPrincipal = new JPanel();
+                    pnlPrincipal.setLayout(new FlowLayout(FlowLayout.LEFT));
+                    //PANELS LABEL Y DE TEXTFIELDS
+                    JPanel pnlLabels = new JPanel();
+                    JPanel pnlData = new JPanel();    
+                    pnlLabels.setLayout(new BoxLayout(pnlLabels, BoxLayout.Y_AXIS));
+                    pnlData.setLayout(new BoxLayout(pnlData, BoxLayout.Y_AXIS));
+                    //LABELS
+                    JLabel lblNoControl = new JLabel("No.Control:");
+                    lblNoControl.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblNombre = new JLabel("Nombre:");
+                    lblNombre.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblApat = new JLabel("Apellido Paterno:");
+                    lblApat.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblAmat = new JLabel("Apellido Materno:");
+                    lblAmat.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblCarrera = new JLabel("Carrera:");
+                    lblCarrera.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblFechaNac = new JLabel("Fecha de nacimiento:");
+                    lblFechaNac.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblContrasenia = new JLabel("Contraseña:");
+                    lblContrasenia.setAlignmentX(RIGHT_ALIGNMENT);
+                    JLabel lblConfirmContrasenia = new JLabel("Confirmar contraseña:");
+                    lblConfirmContrasenia.setAlignmentX(RIGHT_ALIGNMENT);
+                    //TEXT FIELDS PARA LA INFORMACION
+                    JTextField txtNoControl = new JTextField();
+                    JTextField txtNombre = new JTextField();
+                    JTextField txtApat = new JTextField();
+                    JTextField txtAmat = new JTextField();
+                    JTextField txtCarrera = new JTextField();
+                    JTextField txtContrasenia = new JTextField();
+                    JTextField txtConfirmContrasenia = new JTextField();
+                    //Date picker
+                    
+                    UtilDateModel model = new UtilDateModel();
+                    //model.setDate(20,04,2014);
+                    Properties p = new Properties();
+                    p.put("text.today", "Today");
+                    p.put("text.month", "Month");
+                    p.put("text.year", "Year");
+                    
+                    JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+                    
+                    JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+                    //ADDING PANELS LABEL
+                    pnlLabels.add(lblNoControl);
+                    pnlLabels.add(Box.createVerticalStrut(20));
+                    pnlLabels.add(lblNombre);
+                    pnlLabels.add(Box.createVerticalStrut(20));
+                    pnlLabels.add(lblApat);
+                    pnlLabels.add(Box.createVerticalStrut(20));
+                    pnlLabels.add(lblAmat);
+                    pnlLabels.add(Box.createVerticalStrut(15));
+                    pnlLabels.add(lblCarrera);
+                    pnlLabels.add(Box.createVerticalStrut(25));
+                    pnlLabels.add(lblFechaNac);
+                    pnlLabels.add(Box.createVerticalStrut(20));
+                    pnlLabels.add(lblContrasenia);
+                    pnlLabels.add(Box.createVerticalStrut(20));
+                    pnlLabels.add(lblConfirmContrasenia);
+                    //ADDING PANELS DATA
+                    pnlData.add(txtNoControl);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtNombre);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtApat);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtAmat);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtCarrera);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(datePicker);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtContrasenia);
+                    pnlData.add(Box.createVerticalStrut(15));
+                    pnlData.add(txtConfirmContrasenia);
+                    
+                    //Agregando al panel principal
+                    pnlPrincipal.add(pnlLabels);
+                    pnlPrincipal.add(pnlData);
+                    //Creando ventana confirm
+                    okInfo = JOptionPane.showConfirmDialog(null, pnlPrincipal, "Ingresa datos de usuario",
+                            JOptionPane.OK_CANCEL_OPTION);
+                    System.out.println("LA OPCION FUE: "+okInfo);
+                    if (okInfo == JOptionPane.OK_OPTION) {
+                        try {
+                            
+                            
+                            fechaNac = new Fecha(datePicker.getModel().getDay(),
+                                    datePicker.getModel().getMonth(),
+                                    datePicker.getModel().getYear());
+                            
+                            noControl = txtNoControl.getText();
+                            nombre = txtNombre.getText();
+                            aPaterno = txtApat.getText();
+                            aMaterno = txtAmat.getText();
+                            carrera = txtCarrera.getText();
+                            contraseniaAlumno = txtContrasenia.getText();
+                             
+                            if(!control.existeNoControlAlumno(noControl) && 
+                                    txtContrasenia.getText().equals(txtConfirmContrasenia.getText())){
+                                infoIsOk = true;
+                                System.out.println("Paso la prueba de correctitud");
+                            }else{
+                                if(control.existeNoControlAlumno(noControl)){
+                                    JOptionPane.showMessageDialog(pnlPrincipal, "El número de control ya existe", "Error de datos",
+                                            JOptionPane.WARNING_MESSAGE);
+                                }
+                                if(txtContrasenia.getText().equals(txtConfirmContrasenia.getText())){
+                                    JOptionPane.showMessageDialog(pnlPrincipal, "Las contraseñas no coinciden, prro", "Error de datos",
+                                            JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
+                            
+                        } catch (FechaInvalidaException ex) {
+                            System.out.println("Error en fecha prro");
+                            ex.printStackTrace();
+                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } //aqui te quedaste PRRO!!! JAJAJAJAJAJ
+                    
+                } while (!infoIsOk && okInfo != JOptionPane.CANCEL_OPTION  && okInfo != JOptionPane.CLOSED_OPTION);
                 /*Pendiente agregar también la lista de Materias, y con ellas calcular el promedio*/
                 if(!control.existeNoControlAlumno(noControl)){
-                    nombre = JOptionPane.showInputDialog("Ingresa el nombre del alumno");
-                    aPaterno = JOptionPane.showInputDialog("Ingresa el apellido paterno del alumno");
-                    aMaterno = JOptionPane.showInputDialog("Ingresa el apellido materno del alumno");
-                    //Para introducir fecha más comodamente
-                    
-                    JTextField diaField = new JTextField(5);
-                    JTextField mesField = new JTextField(5);
-                    JTextField anioField = new JTextField(5);
 
-                        
-                    /*Para fecha utilizamos una opción múltiple, si bien podemos utilizarla para toda
-                    la inserción de datos, por ahora sólo utilizamos con fecha porque me da flojera jajaja
-                    */
-                    JPanel myPanel = new JPanel(); //Creamos un panel, esto para poder agregar los 
-                                                       //JTextFields, y los Labels para recibir la información
-                    myPanel.add(new JLabel("Dia:"));
-                    myPanel.add(diaField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                    myPanel.add(new JLabel("Mes:"));
-                    myPanel.add(mesField);
-                    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                    myPanel.add(new JLabel("Año:"));
-                    myPanel.add(anioField);
+
+
                     int result = JOptionPane.showConfirmDialog(null, myPanel, "Ingresa la fecha de nacimiento",
                             JOptionPane.OK_CANCEL_OPTION); //Con esto tenemos un boton de ok/cancel, muy util
                     if(result == JOptionPane.OK_OPTION){ //Si la opcion es OK, procedemos
                         try {
-                            fechaNac = new Fecha(Integer.parseInt(diaField.getText()),
-                                    Integer.parseInt(mesField.getText()),
-                                    Integer.parseInt(anioField.getText()));
-                            carrera = JOptionPane.showInputDialog("Ingresa la carrera del alumno");
-                            
                             try {
                                 /*
                                 Sólo hasta el final después de corroborar la información, procedemos a

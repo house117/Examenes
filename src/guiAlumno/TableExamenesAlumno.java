@@ -3,37 +3,74 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guiProfesor;
+package guiAlumno;
 
+import guiProfesor.*;
 import Examen.objects.Examen;
 import controlescolar.objects.Alumno;
+import controlescolar.objects.Fecha;
+import exceptions.FechaInvalidaException;
+import guiAdministrador.MainFrame;
 import java.awt.BorderLayout;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author House
  */
-public class TableExamenesProfesor extends JPanel{
+public class TableExamenesAlumno extends JPanel{
     private JScrollPane scrollPane;
     private JTable examenesTable;
-    private DefaultTableModel tblmExamenesProfesor;
-    public TableExamenesProfesor(ArrayList<Examen> listaExamenes){
+    private DefaultTableModel tblmExamenesAlumno;
+    private final int NUMERODEPREGUNTAS = 3;
+    public TableExamenesAlumno(ArrayList<Examen> listaExamenes){
         super();
         super.setLayout(null);
         String col[] = {"No.Control", "Nombre Examen","Materia","Profesor","Fecha límite"};
-        tblmExamenesProfesor = new DefaultTableModel(col, 0){
+        tblmExamenesAlumno = new DefaultTableModel(col, 0){
             @Override
             public boolean isCellEditable(int i, int il){
                 return false;
             }
         };
         drawTabla(listaExamenes);
-        
+        examenesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                try {
+                    String noControl = (String) examenesTable.getValueAt(examenesTable.getSelectedRow(), 0);
+                    Examen aPresentar = null;
+                    for(int i=0; i<listaExamenes.size(); i++){
+                        if(noControl.equals(listaExamenes.get(i).getNoControl())){
+                            aPresentar = listaExamenes.get(i);
+                        }
+                    }
+                    LocalDate currentDate = LocalDate.now();
+                    Fecha hoy = new Fecha(currentDate.getDayOfMonth(), currentDate.getMonthValue(), currentDate.getYear());
+                    
+                    if(!(aPresentar.getFechaLimite().esMayorQue(hoy) >0)){
+                        PresentadorDeExamen.PresentarExamen(aPresentar);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Ya no puedes presentar ese examen prro xD");
+                    }
+                    
+                } catch (FechaInvalidaException ex) {
+                    Logger.getLogger(TableExamenesAlumno.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
      public void addExamen(Examen aMostrar){
         //cadenas innecesarias, solo de apoyo
@@ -51,7 +88,7 @@ public class TableExamenesProfesor extends JPanel{
                         aMostrar.getProfesorCreador().getaMaterno());
                 fechaLimite = aMostrar.getFechaLimite().toString();
                 Object[] data = {noControl, nombre, materia, profesor, fechaLimite};
-                tblmExamenesProfesor.addRow(data);
+                tblmExamenesAlumno.addRow(data);
 
     }
     public void drawTabla(ArrayList<Examen> aMostrar){
@@ -62,8 +99,8 @@ public class TableExamenesProfesor extends JPanel{
         System.out.println("ME EJECUTE");
         //metodo que obtiene un arrayList de alumnos y lo agrega a una tabla y
         //agrega esta al JPanel
-        for(int i=0; i<tblmExamenesProfesor.getRowCount(); i++){
-            tblmExamenesProfesor.removeRow(i);
+        for(int i=0; i<tblmExamenesAlumno.getRowCount(); i++){
+            tblmExamenesAlumno.removeRow(i);
         }
         String noControl;
         String nombre;
@@ -84,13 +121,13 @@ public class TableExamenesProfesor extends JPanel{
                         aMostrar.get(i).getProfesorCreador().getaPaterno(),
                         aMostrar.get(i).getProfesorCreador().getaMaterno());
                 Object[] data = {noControl, nombre, materia, profesor,fechaLimite};
-                tblmExamenesProfesor.addRow(data);
+                tblmExamenesAlumno.addRow(data);
                 //Agrega la fila a table Model estudiante
                 
         }
         
         //creamos la tabla y le agregamos el modelo
-        examenesTable = new JTable(tblmExamenesProfesor);
+        examenesTable = new JTable(tblmExamenesAlumno);
         examenesTable.setRowSelectionAllowed(true);
         //el setRow no es necesario pero meh
         
@@ -132,16 +169,16 @@ public class TableExamenesProfesor extends JPanel{
     }
 
     /**
-     * @return the tblmExamenesProfesor
+     * @return the tblmExamenesAlumno
      */
     public DefaultTableModel getTblmExamenesProfesor() {
-        return tblmExamenesProfesor;
+        return tblmExamenesAlumno;
     }
 
     /**
-     * @param tblmExamenesProfesor the tblmExamenesProfesor to set
+     * @param tblmExamenesProfesor the tblmExamenesAlumno to set
      */
     public void setTblmExamenesProfesor(DefaultTableModel tblmExamenesProfesor) {
-        this.tblmExamenesProfesor = tblmExamenesProfesor;
+        this.tblmExamenesAlumno = tblmExamenesProfesor;
     }
 }

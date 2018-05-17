@@ -13,8 +13,8 @@ import javax.swing.JPanel;
  *
  * @author House
  */
-public class ControlPanelProfesor extends JPanel{
-    public ControlPanelProfesor(){
+public class ControlPanelAlumno extends JPanel{
+    public ControlPanelAlumno(){
         super();
         super.setBackground(Color.yellow);
         super.setLayout(new BorderLayout());

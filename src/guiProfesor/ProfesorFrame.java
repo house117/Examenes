@@ -33,8 +33,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class ProfesorFrame extends JFrame{
-    private ControlPanelProfesor pnlControl;
-    private TableExamenesProfesor pnlTabla;
+    private ControlPanelAlumno pnlControl;
+    private TableExamenesAlumno pnlTabla;
     private TableRowSorter<TableModel> rowSorter;
     private Profesor usuario;
     private ControlExamenes controlExamenes;
@@ -47,8 +47,8 @@ public class ProfesorFrame extends JFrame{
         //SETS THIS
         this.usuario = usuario;
         this.controlExamenes = controlExamenes;
-        pnlControl = new ControlPanelProfesor();
-        pnlTabla = new TableExamenesProfesor(this.controlExamenes.getListaExamenes());
+        pnlControl = new ControlPanelAlumno();
+        pnlTabla = new TableExamenesAlumno(this.controlExamenes.getListaExamenes());
         
         super.add(pnlControl, BorderLayout.NORTH);
         super.add(pnlTabla, BorderLayout.CENTER);

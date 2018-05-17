@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import Examen.objects.TipoUsuario;
+import controlescolar.objects.Alumno;
 import controlescolar.objects.Profesor;
 import guiAdministrador.MainFrame;
 import java.awt.Color;
@@ -28,6 +29,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import controller.*;
+import guiAlumno.AlumnoFrame;
 import guiProfesor.ProfesorFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -133,7 +135,7 @@ public class LoginFrame extends JFrame{
                                 @Override
                                 public void run() {
                                     LoginFrame.this.setVisible(false);
-                                    ProfesorFrame ventanaProfesir = new ProfesorFrame("Examenes - Profesores",
+                                    ProfesorFrame ventanaProfesor = new ProfesorFrame("Examenes - Profesores",
                                             referencia,
                                             controlEscolar, new ControlExamenes());
                                 }
@@ -148,13 +150,24 @@ public class LoginFrame extends JFrame{
                         break;
                     case Alumno:
                         Boolean correctoAlumno = false;
-                        for(int i=0; i<controlEscolar.getListaProfesores().size(); i++){
+                        for(int i=0; i<controlEscolar.getListaAlumnos().size(); i++){
+                            System.out.println("i="+i);
                             if(controlEscolar.getListaAlumnos().get(i).getNoControl().equals(txtUser.getText())){
                                 System.out.println(controlEscolar.getListaAlumnos().get(i).getNoControl());
                                 System.out.println(controlEscolar.getListaAlumnos().get(i).getPassword());
                                if(controlEscolar.getListaAlumnos().get(i).getPassword().equals(txtPassword.getText())){
+                                   Alumno referencia = controlEscolar.getListaAlumnos().get(i);
                                    correctoAlumno = true; 
-                                   System.out.println("SI ENTRO A ALUMNO");
+                                   //System.out.println("SI ENTRO A ALUMNO");
+                                   SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    LoginFrame.this.setVisible(false);
+                                    AlumnoFrame ventanaAlumno= new AlumnoFrame("Examenes - Alumno",
+                                            referencia,
+                                            controlEscolar, new ControlExamenes());
+                                }
+                            });
                                 }
                             }
                         }
